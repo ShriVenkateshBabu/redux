@@ -2,6 +2,7 @@ import {useSelector,useDispatch} from "react-redux"
 import { selectallpost } from "./postsSlice"
 const PostsList = () => {
   const posts = useSelector(selectallpost)
+  console.log(posts,"hello")
   const renderedPost = posts.map((post)=>
   <article key={post.id}>
    <h3>{post.title}</h3>

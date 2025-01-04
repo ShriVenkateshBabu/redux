@@ -1,30 +1,27 @@
 import React, { useState } from "react";
-
+import { useDispatch, useSelector } from "react-redux";
+import { nanoid  } from "@reduxjs/toolkit";
+import { postAdded } from "./posts/postsSlice";
 const AddPostForm = () => {
-  const [posts, setPosts] = useState([]);
+  const dispatch = useDispatch()
   const [post, setPost] = useState({ title: "", content: "" });
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setPost((currentPost) => ({
-      ...currentPost,
-      [name]: value,
-    }));
-  };
-
+    const {name,value} = e.target
+    setPost((preval)=>(
+        {...preval,
+          [name]:value} 
+    )  
+)
+  }
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Assign a unique id to the post at the time of submission
-    const newPost = {
-      ...post,
-      id: posts.length ? posts[posts.length - 1].id + 1 : 1,
-    };
-
-    setPosts((currentPosts) => [...currentPosts, newPost]);
-    setPost({ title: "", content: "" }); // Clear the form after submission
-  };
-
+    const {title,content} = post
+    if(post.content && post.title){
+      dispatch(postAdded(title,content))
+    setPost({ title: "", content: "" }); 
+   };
+  }
   return (
     <section>
       <h2>ADD POST</h2>
@@ -46,15 +43,6 @@ const AddPostForm = () => {
         />
         <button type="submit">Add Post</button>
       </form>
-      <section>
-        <h3>Posts</h3>
-        {posts.map((post) => (
-          <div key={post.id}>
-            <h4>{post.title}</h4>
-            <p>{post.content}</p>
-          </div>
-        ))}
-      </section>
     </section>
   );
 };
