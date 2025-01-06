@@ -6,13 +6,16 @@ const postsSlice = createSlice({
    reducers:{
        postAdded:{
         reducer(state,action){
-            const id = state.length ?state[state.length-1].id +1:1;
+          const  id = state.length ?state[state.length-1].id +1:1;
            state.push({id,...action.payload}) // due immer library
-       },prepare(title,content){
+       },prepare(title,content,userid){
         return{
             payload:{
                 title,
-                content}} 
+                content,
+                userid,
+                date:new Date().toString()
+            }} 
         }
        }
    }
